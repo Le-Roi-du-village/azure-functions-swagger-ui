@@ -32,11 +32,9 @@
   "main": "dist/cjs/index.js",
   "scripts": {
     "build": "tsc --outDir dist/cjs  && tsc --module es6 --outDir dist/esm",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "check-exports": "attw --pack ."
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.2",
     "@types/node": "^22.10.5",
     "typescript": "^5.7.2"
   },

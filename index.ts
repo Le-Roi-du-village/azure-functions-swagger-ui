@@ -1,8 +1,8 @@
 import { app, HttpFunctionOptions } from "@azure/functions";
-import swagger_ui_handler from './handler'
-import { SwaggerOptions, makeHtml ,deleteHtml} from "./makeHtml";
-import { updateCustomMap } from "./fileMap";
-import jsdoc from "./jsdoc";
+import swagger_ui_handler from './src/handler'
+import { SwaggerOptions, makeHtml ,deleteHtml} from "./src/makeHtml";
+import { updateCustomMap } from "./src/fileMap";
+import jsdoc from "./src/jsdoc";
 
 /**
  * 

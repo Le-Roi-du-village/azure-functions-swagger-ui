@@ -3,7 +3,7 @@ import * as path from 'path';
 
 // Path where the swagger-ui-dist package is installed
 const swagger_ui_dist_path = require("swagger-ui-dist").getAbsoluteFSPath() ;
-const package_path = path.resolve(__dirname, '..', '..');
+const package_path = path.resolve(__dirname, '..', '..','..');
 
 
 /*

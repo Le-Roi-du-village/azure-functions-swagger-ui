@@ -3,13 +3,14 @@ import { HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functio
 import * as fs from 'fs';
 import * as util from 'util';
 import { custom_maps, fileMap } from "./fileMap";
+import package_path from './package_path';
 import * as path from "path";
 const readFileAsync = util.promisify(fs.readFile);
 const fileExistsAsync = util.promisify(fs.exists);
 
 
 
-const package_html_path = path.resolve(__dirname, '..','html');
+const package_html_path = path.resolve(package_path,'html');
 
 
 

@@ -1,9 +1,9 @@
 import { SwaggerOptions } from "./makeHtml";
 import * as path from 'path';
+import package_path from './package_path';
 
 // Path where the swagger-ui-dist package is installed
 const swagger_ui_dist_path = require("swagger-ui-dist").getAbsoluteFSPath() ;
-const package_path = path.resolve(__dirname, '..', '..','..');
 
 
 /*
@@ -24,7 +24,7 @@ const fileMap  = new Map([
     ],
     [
     'swagger-initializer.js', {
-        fileName: `${package_path}/swagger-initializer.js`,
+        fileName: `${package_path}/../swagger-initializer.js`,
         contentType: 'application/javascript; charset=UTF-8'
         }
     ],

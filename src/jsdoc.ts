@@ -2,9 +2,10 @@ import * as path from "path";
 import * as fs from 'fs';
 import { InvocationContext } from "@azure/functions";
 import { SwaggerOptions } from "./makeHtml";
+import package_path from './package_path';
 
 
-const jsdoc_dir = path.resolve(__dirname,'..','doc');
+const jsdoc_dir = path.resolve(package_path,'doc');
 
 
 export default  function (fileName : string,swaggerOptions : SwaggerOptions  ){

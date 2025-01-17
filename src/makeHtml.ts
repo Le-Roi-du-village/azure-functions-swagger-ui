@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {InvocationContext } from "@azure/functions";
+import package_path from './package_path';
 
-
-const html_dir = path.resolve(__dirname,'..','html');
+const html_dir = path.resolve(package_path,'html');
 
 /**
  * Interface for Swagger UI options

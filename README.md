@@ -88,7 +88,9 @@ Using these above import statement directly creates the Azure Function for you. 
 
 ```typescript
 import { app, HttpFunctionOptions } from "@azure/functions";
-import { swagger_ui_handler, makeHtml, updateCustomMap, SwaggerOptions } from 'azure-functions-swagger-ui';
+import {makeHtml,SwaggerOptions} from 'azure-functions-swagger-ui/src/makeHtml'
+import swagger_ui_handler from 'azure-functions-swagger-ui/src/handler'
+import {updateCustomMap} from 'azure-functions-swagger-ui/src/fileMap'
 
 const swaggerOptions: SwaggerOptions = {
   doc_path: 'path/to/your/swagger.json',

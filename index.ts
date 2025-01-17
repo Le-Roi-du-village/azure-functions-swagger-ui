@@ -14,7 +14,7 @@ import jsdoc from "./src/jsdoc";
  * This function creates a new http function with the specified name and options.
   * Set options.route to the route where you want to access the Swagger UI without parameters. For example: 'apidocs', and '/{file?}' will be added automatically.
  */
-export default function ( name : string = 'swagger_ui' ,swaggerOptions : SwaggerOptions ,httpFunctionOptions?: Partial<HttpFunctionOptions>,swagger_jsdoc : boolean = false): void {
+module.exports = function ( name : string = 'swagger_ui' ,swaggerOptions : SwaggerOptions ,httpFunctionOptions?: Partial<HttpFunctionOptions>,swagger_jsdoc : boolean = false): void {
     if (httpFunctionOptions){
         if (httpFunctionOptions.route){
             httpFunctionOptions.route = httpFunctionOptions.route.endsWith('/') ? `${httpFunctionOptions.route}{*file}` :`${httpFunctionOptions.route}/{*file}`

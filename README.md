@@ -30,7 +30,7 @@ You can customize the Swagger UI by passing the following options to the `swagge
 - `html_path` (optional): Path to custom HTML file.
 - `display_topbar` (optional): 0 | 1 | 2 ;  0: topbar hidden, 1: topbar displayed without search bar, 2: topbar displayed with search bar (optional)
 
-
+**Note:** When specifying paths that are not internet links, ensure that these paths are relative paths with the project root as the source.
 ### Simple Example
 
 ```typescript

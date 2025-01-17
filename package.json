@@ -1,6 +1,6 @@
 {
   "name": "azure-functions-swagger-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple npm module that integrates Swagger UI into Azure Functions, providing a user-friendly interface to visualize and interact with your API endpoints. Perfect for documenting and testing Azure Functions with minimal setup.",
   "keywords": [
     "swagger",
@@ -45,7 +45,8 @@
     "swagger-ui-dist": "^5.18.2"
   },
   "files": [
-    "dist"
+    "dist",
+    "swagger-initializer.js"
   ],
   "exports": {
     ".": {

@@ -83,31 +83,56 @@ const clear_custom_maps  = function(key?: string): void {
 /**
  * 
  * @param name  string
- * @param swaggerOptions SwaggerOptions, { doc_path, title?, favicon16?, favicon32?, css_path?, display_topbar? : 0 | 1 | 2 }
+ * @param swaggerOptions SwaggerOptions, { doc_path, title?, favicon16?, favicon32?, css_path?, display_topbar? : 0 | 1 | 2 | 3}
+ * @param is_swagger_jsdoc_object boolean | Array<boolean>, set to true if the doc_path is a jsdoc object or boolean array of the same length as doc_path specifying which element of doc_path is a jsdoc object
  * 
  * 
  * This function updates the custom_map with the custom files specified in the swaggerOptions
  */
-function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,swagger_jsdoc : boolean ) :void {
+function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,is_swagger_jsdoc_object : boolean|boolean[] ) :void {
     custom_maps[name] = new Map();
     const custom_map = custom_maps[name];
-    const extention = path.extname(swaggerOptions.doc_path);
-    if (swagger_jsdoc){
-        const base = path.basename(swaggerOptions.doc_path);
-        custom_map.set(path.normalize(base), {
-            fileName: swaggerOptions.doc_path,
-            contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
-        })
-        
-        swaggerOptions.doc_path = base;
-
+    if (Array.isArray(swaggerOptions.doc_path)){
+        is_swagger_jsdoc_object = is_swagger_jsdoc_object as boolean[] || new Array(swaggerOptions.doc_path.length).fill(false);
+        for (let i = 0; i < swaggerOptions.doc_path.length; i++){
+            const extention = path.extname(swaggerOptions.doc_path[i].url);
+            if (is_swagger_jsdoc_object[i]){
+                const base = path.basename(swaggerOptions.doc_path[i].url);
+                custom_map.set(path.normalize(base), {
+                    fileName: swaggerOptions.doc_path[i].url,
+                    contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
+                })
+                
+                swaggerOptions.doc_path[i].url = base;
+            }
+            else{
+                custom_map.set(path.normalize(swaggerOptions.doc_path[i].url), {
+                    fileName: swaggerOptions.doc_path[i].url,
+                    contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
+                })
+            }
+        }
     }
     else{
-        custom_map.set(path.normalize(swaggerOptions.doc_path), {
-            fileName: swaggerOptions.doc_path,
-            contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
-        })
+        const extention = path.extname(swaggerOptions.doc_path as string);
+        if (is_swagger_jsdoc_object){
+            const base = path.basename(swaggerOptions.doc_path as string);
+            custom_map.set(path.normalize(base), {
+                fileName: swaggerOptions.doc_path as string,
+                contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
+            })
+            
+            swaggerOptions.doc_path = base;
+
+        }
+        else{
+            custom_map.set(path.normalize(swaggerOptions.doc_path as string), {
+                fileName: swaggerOptions.doc_path as string,
+                contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
+            })
+        }
     }
+    
     if (swaggerOptions.favicon16) custom_map.set(path.normalize(swaggerOptions.favicon16), {
         fileName: swaggerOptions.favicon16,
         contentType: 'image/png'

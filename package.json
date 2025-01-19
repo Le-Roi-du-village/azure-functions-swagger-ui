@@ -1,6 +1,6 @@
 {
   "name": "azure-functions-swagger-ui",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A simple npm module that integrates Swagger UI into Azure Functions, providing a user-friendly interface to visualize and interact with your API endpoints. Perfect for documenting and testing Azure Functions with minimal setup.",
   "keywords": [
     "swagger",
@@ -14,7 +14,8 @@
     "api-management",
     "rest-api",
     "api-explorer",
-    "documentation"
+    "documentation",
+    "swagger-jsdoc"
   ],
   "homepage": "https://github.com/Le-Roi-du-village/azure-functions-swagger-ui#readme",
   "bugs": {

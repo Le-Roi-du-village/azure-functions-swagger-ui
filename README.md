@@ -18,7 +18,7 @@ npm install azure-functions-swagger-ui
 - `name` (string, optional): The name of the function. This will be the route unless a route is explicitly configured in the `HttpFunctionOptions`, default is 'swagger_ui'.
 - [swaggerOptions](#swaggeroptions) (SwaggerOptions, required): Options for configuring Swagger UI.
 - [httpFunctionOptions](https://github.com/Azure/azure-functions-nodejs-library/blob/v4.x/types/http.d.ts#L16) (HttpFunctionOptions, optional): Azure function options.
-- `is_swagger_jsdoc_object` (boolean | Array<boolean> , optional): If true, the `doc_path` property of [swaggerOptions](#swaggeroptions) will be treated as a [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) object instead of a path/url to a Swagger/OpenAPI file ([see](#swagger-jsdoc)). It can also be an array of boolean if `doc_path` is an array of objects, in this case, `is_swagger_jsdoc_object` should specify which element of doc_path is a jsdoc object ([see](#multiple-swaggeropenapi-files-and-swagger-jsdoc)).
+- `is_swagger_jsdoc_object` (boolean | Array <boolean> , optional): If true, the `doc_path` property of [swaggerOptions](#swaggeroptions) will be treated as a [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) object instead of a path/url to a Swagger/OpenAPI file ([see](#swagger-jsdoc)). It can also be an array of boolean if `doc_path` is an array of objects, in this case, `is_swagger_jsdoc_object` should specify which element of doc_path is a jsdoc object ([see](#multiple-swaggeropenapi-files-and-swagger-jsdoc)).
 
 #### SwaggerOptions
 

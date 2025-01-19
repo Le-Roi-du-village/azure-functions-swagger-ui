@@ -1,5 +1,5 @@
 # azure-functions-swagger-ui
-A simple npm module that integrates Swagger UI into Azure Functions, providing a user-friendly interface to visualize and interact with your API endpoints. Perfect for documenting and testing Azure Functions with minimal setup. This package relies on the [swagger-ui-dist](https://github.com/swagger-api/swagger-ui#readme) package.
+A simple npm module that integrates Swagger UI into Azure Functions, providing a user-friendly interface to visualize and interact with your API endpoints. Perfect for documenting and testing Azure Functions with minimal setup. This package relies on the [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) package.
 
 
 **Note:** This package is compatible with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) ([see](#swagger-jsdoc)).

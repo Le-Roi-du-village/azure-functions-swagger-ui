@@ -34,7 +34,7 @@ You can customize the Swagger UI by passing the following options to the `swagge
 
 **Note:** When specifying paths that are not internet links, ensure that these paths are relative paths with the project root as the source.
 
-**Note:** If you provide a list of paths in the doc_path parameter, it's recommended to set display_topbar to either 2 or 3. This ensures that the select bar will be visible, allowing users to easily navigate between the different documents.
+**Note:** If you provide a list of paths in the `doc_path` property, it's recommended to set `display_topbar` to either 2 or 3. This ensures that the select bar will be visible, allowing users to easily navigate between the different documents.
 
 ### Simple Example
 
@@ -77,7 +77,7 @@ swaggerUI('func2',{'doc_path':'./admin.json','title':"admin",'display_topbar':2}
 ```
 
 ### [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc)
-If you are using swagger-jsdoc, simply pass the openapiSpec into the `doc_path` parameter and set `is_swagger_jsdoc_object` to true.
+If you are using [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc), simply pass the openapiSpec into the `doc_path` property and set `is_swagger_jsdoc_object` to true.
 
 ```typescript
 const openapiSpec = swaggerJsdoc(options);

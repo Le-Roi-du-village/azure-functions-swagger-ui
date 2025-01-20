@@ -1,8 +1,9 @@
 import { app, HttpFunctionOptions } from "@azure/functions";
 import swagger_ui_handler from './src/handler'
-import { SwaggerOptions, makeHtml ,deleteHtml} from "./src/makeHtml";
-import { custom_maps, updateCustomMap } from "./src/fileMap";
+import { SwaggerOptions, makeHtml} from "./src/makeHtml";
+import {  updateCustomMap } from "./src/fileMap";
 import jsdoc from "./src/jsdoc";
+import { deleteTmpDir } from "./src/tmp_path";
 
 /**
  * 
@@ -31,13 +32,14 @@ export default function ( name : string = 'swagger_ui' ,swaggerOptions : Swagger
     else{
         httpFunctionOptions = {route: `${name}/{*file}`,handler :swagger_ui_handler, methods: ['GET']};
     }
-
+        
+    
     if (is_swagger_jsdoc_object) jsdoc(name,swaggerOptions,is_swagger_jsdoc_object);
     updateCustomMap(name, swaggerOptions,is_swagger_jsdoc_object);
     if (!swaggerOptions.html_path) makeHtml(name, swaggerOptions,httpFunctionOptions.route as string);
     app.http(name,httpFunctionOptions as HttpFunctionOptions);
     [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
-        process.on(eventType, deleteHtml.bind(null));
+        process.on(eventType, deleteTmpDir.bind(null));
     });
 
 }

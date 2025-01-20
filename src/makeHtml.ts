@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {InvocationContext } from "@azure/functions";
-import package_path from './package_path';
+import tmp_path from './tmp_path';
 
-const html_dir = path.resolve(package_path,'html');
+
+const html_dir = path.resolve(tmp_path,'html');
 
 /**
  * Interface for Swagger UI options
@@ -57,6 +57,7 @@ export function makeHtml(fileName:string, swaggerOptions:SwaggerOptions, route:s
             const dynamicHref = window.location.pathname.endsWith('/${route_dir}') ? './${route_dir_last}/' : '';
             baseElement.href = dynamicHref;
         </script>
+      
         <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
         <link rel="stylesheet" type="text/css" href="index.css" />
         ${swaggerOptions.css_path ? `<link rel="stylesheet" type="text/css" href="${swaggerOptions.css_path}" />` : ''}
@@ -67,11 +68,54 @@ export function makeHtml(fileName:string, swaggerOptions:SwaggerOptions, route:s
         
         <body>
         <div id="swagger-ui"></div>
-        <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-        <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-        <script> const doc_path = ${Array.isArray(swaggerOptions.doc_path)?JSON.stringify(swaggerOptions.doc_path):`"${swaggerOptions.doc_path}"`}; </script>
-        <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+        <script>
+          let doc_path = ${Array.isArray(swaggerOptions.doc_path)?JSON.stringify(swaggerOptions.doc_path):`"${swaggerOptions.doc_path}"`}; 
+          const urlParams = new URLSearchParams(window.location.search).toString();
+          if (typeof(doc_path) === 'string' ){
+            const url = new URL(doc_path,document.baseURI);
+            if (!url.hostname || url.hostname === window.location.hostname){
+              url.search = urlParams; 
+              doc_path = url.toString();
+            }
+          }
+          else{
+            doc_path
+            .forEach(elem =>{
+              const url = new URL(elem.url,document.baseURI);
+              if (!url.hostname || url.hostname === window.location.hostname){
+                url.search = urlParams; 
+                elem.url =  url.toString();
+
+              }
+            })
+          }
+          if (urlParams) {
+                document.querySelectorAll('link').forEach(element => {
+                if (!element.href ) return;
+                const url = new URL(element.href); 
+                if (!url.hostname || url.hostname === window.location.hostname) {
+                  url.search = urlParams; 
+                  element.href = url.toString();
+                  }
+                });
+            }
+          [
+            "./swagger-ui-bundle.js",
+            "./swagger-ui-standalone-preset.js",
+            "./swagger-initializer.js"
+          ]
+          .forEach(src =>{
+            const scriptElement = document.createElement('script');
+            if (urlParams) src+=\`?\${urlParams}\`
+            scriptElement.src = src;
+            scriptElement.charset = 'UTF-8';
+            document.body.appendChild(scriptElement);
+          })
+
+
+        </script>
         </body>
+
     </html>
     `;
 
@@ -82,14 +126,12 @@ export function makeHtml(fileName:string, swaggerOptions:SwaggerOptions, route:s
     // Create the directory structure for the HTML file
     fs.mkdir(path.join(html_dir,  path.dirname(fileName) ) , { recursive: true }, (err) => {
         if (err) {
-          new InvocationContext().error('Error creating HTML directory:', err);
           console.error('Error creating HTML directory:', err);
           throw err;
         } else {
           // Write the adapted HTML content to an HTML file
           fs.writeFile(html_path, htmlContent, (err) => {
             if (err) {
-                new InvocationContext().error('Error writing the HTML file:', err);
                 console.error('Error writing the HTML file:', err);
                 throw err;
 
@@ -99,6 +141,3 @@ export function makeHtml(fileName:string, swaggerOptions:SwaggerOptions, route:s
       });
 }
 
-export function deleteHtml(): void {
-  fs.rmSync(html_dir, { recursive: true, force: true });
-}

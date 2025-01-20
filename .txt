@@ -1,0 +1,106 @@
+
+
+
+const swaggerJsdoc = require('swagger-jsdoc');
+
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
+
+const options = {
+
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+    apis: ['src/index.ts'],
+};
+
+
+
+import swaggerUI from 'azure-functions-swagger-ui'
+
+
+
+
+
+
+
+swaggerUI(undefined,{'doc_path':'./openapi.yaml'});
+
+
+
+// // These are examples of how to use the azure-functions-swagger-ui package
+
+
+// This Swagger UI will be available at the route /apidocs/manager and will display the documentation from the swagger.json file located at https://www.my_site.com/apidoc/v2/swagger.json
+swaggerUI('func0',{'doc_path':'https://petstore.swagger.io/v2/swagger.json','title':"manager"},{route:'apidocs/manager'});
+
+// This Swagger UI will be available at the route /apidocs/customer and will display the documentation from the customer.yml file located at the root of the function
+// The title of the page will be customer and the favicon will be the images/customer16.png and images/customer32.png, the topbar will be displayed but not the search bar
+swaggerUI('func1',{'doc_path':'./customer.yml','title':"customer",'favicon16':'images\\customer16.png','favicon32':'images\\customer32.png','display_topbar':1},{route:'apidocs/customer'});
+
+// This Swagger UI will be available at the route /v2/admin/swagger and will display the documentation from the admin.yml file located at the root of the function
+// The title of the page will be admin and the topbar will be displayed and the search bar too
+// The authentication level will be admin
+swaggerUI('func2',{'doc_path':'./admin.json','title':"admin",'display_topbar':2},{route:'v2/admin/swagger',authLevel:'admin'});
+
+
+
+
+
+
+const openapiSpecification = swaggerJsdoc(options);
+// This will display the documentation from the openapiSpecification object
+// Don't forget to set the swagger_jsdoc parameter (last parameter) to true
+swaggerUI('func3',{'doc_path':openapiSpecification},undefined,true);
+
+
+const options1 = options, options2 = options;
+
+
+const openapiSpecification1 = swaggerJsdoc(options1);
+const openapiSpecification2 = swaggerJsdoc(options2);
+
+const doc_path = [
+      {
+        name: 'spec1',
+        url: openapiSpecification1
+      },
+      {
+        name: 'custommer',
+        url: './customer.yaml'
+      },
+      {
+        name: 'admin',
+        url: './admin.json'
+      },
+
+      {
+        name: 'spec2',
+        url: openapiSpecification2
+      },
+      {
+        name: 'spec3',
+        url: 'https://petstore.swagger.io/v2/swagger.json'
+      }
+]
+
+// This will display the documentation from the list above.
+// If there are swagger-jsdoc objects in the list, set the is_swagger_jsdoc_object parameter to an array of booleans specifying which URLs are swagger-jsdoc objects.
+swaggerUI('func4',{doc_path:doc_path, title:'Api Doc',display_topbar:2},{authLevel:'admin'},[true,false,false,true,false]);
+
+
+
+
+
+

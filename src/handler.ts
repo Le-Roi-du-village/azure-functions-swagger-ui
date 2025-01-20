@@ -3,14 +3,14 @@ import { HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functio
 import * as fs from 'fs';
 import * as util from 'util';
 import { custom_maps, fileMap } from "./fileMap";
-import package_path from './package_path';
+import tmp_path from './tmp_path';
 import * as path from "path";
 const readFileAsync = util.promisify(fs.readFile);
 const fileExistsAsync = util.promisify(fs.exists);
 
 
 
-const package_html_path = path.resolve(package_path,'html');
+const package_html_path = path.resolve(tmp_path,'html');
 
 
 
@@ -20,7 +20,6 @@ const package_html_path = path.resolve(package_path,'html');
 export default async function (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     
     const file = !!request.params.file ? path.normalize(request.params.file) : ''; // If no file is specified, default to index.html
-
 
     
 
@@ -75,15 +74,16 @@ export default async function (request: HttpRequest, context: InvocationContext)
             status: 404
         };
     }
-    if (await fileExistsAsync(`${package_html_path}/${context.functionName}.html`)) {
+    const file_path = path.normalize(`${package_html_path}/${context.functionName}.html`)
+    if (await fileExistsAsync(file_path)) {
         return {
-            body: await readFileAsync(`${package_html_path}/${context.functionName}.html`),
+            body: await readFileAsync(file_path),
             headers: { 'Content-Type': 'text/html; charset=UTF-8' }
         };
 
 
     }
-    context.error('Error reading the HTML file:', `${package_html_path}/${context.functionName}.html`);
+    context.error('Error reading the HTML file:', file_path);
     return {
         status: 404
     };

@@ -1,12 +1,11 @@
 import * as path from "path";
 import * as fs from 'fs';
-import { InvocationContext } from "@azure/functions";
 import { SwaggerOptions } from "./makeHtml";
-import package_path from './package_path';
+import tmp_path from './tmp_path';
 
 
 
-const jsdoc_dir = path.resolve(package_path,'doc');
+const jsdoc_dir = path.resolve(tmp_path,'doc');
 
 
 function array_jsdoc (fileName : string,docs_path_array : { url: string | {}, name: string }[], is_swagger_jsdoc_object : Array<boolean> ){
@@ -24,10 +23,10 @@ function array_jsdoc (fileName : string,docs_path_array : { url: string | {}, na
             doc_path_full = doc_path_start + doc.name + i + '__azfsu__jsdoc.json';
             data = JSON.stringify(data);
         }
+        doc_path_full = path.normalize(doc_path_full);
         // Write the doc content
         fs.writeFile(doc_path_full, data as string, (err) => {
             if (err) {
-                new InvocationContext().error('Error writing the doc file:', err);
                 console.error('Error doc the HTML file:', err);
                 throw err;
             }
@@ -50,11 +49,11 @@ function single_jsdoc (fileName : string, swaggerOptions : SwaggerOptions ){
         doc_path += '__azfsu__jsdoc.json';
         data = JSON.stringify(data);
     }
+    doc_path = path.normalize(doc_path);
 
     // Write the doc content
     fs.writeFile(doc_path, data as string, (err) => {
         if (err) {
-            new InvocationContext().error('Error writing the doc file:', err);
             console.error('Error doc the HTML file:', err);
             throw err;
 
@@ -71,7 +70,6 @@ export default function  (fileName : string,swaggerOptions : SwaggerOptions, is_
         fs.mkdirSync(path.join(jsdoc_dir,  path.dirname(fileName) ) , { recursive: true });
     }
     catch(err){
-        new InvocationContext().error('Error creating doc directory:', err);
         console.error('Error creating doc directory:', err);
         throw err;
     };

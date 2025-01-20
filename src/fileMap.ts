@@ -1,6 +1,6 @@
 import { SwaggerOptions } from "./makeHtml";
 import * as path from 'path';
-import package_path from './package_path';
+import {package_path} from './tmp_path';
 
 // Path where the swagger-ui-dist package is installed
 const swagger_ui_dist_path = require("swagger-ui-dist").getAbsoluteFSPath() ;
@@ -12,49 +12,49 @@ const swagger_ui_dist_path = require("swagger-ui-dist").getAbsoluteFSPath() ;
 const fileMap  = new Map([
     [
     'favicon-32x32.png', {
-        fileName: `${swagger_ui_dist_path}/favicon-32x32.png`,
+        fileName: path.resolve(swagger_ui_dist_path,'favicon-32x32.png'),
         contentType: 'image/png'
         }
     ],
     [
     'favicon-16x16.png', {
-        fileName: `${swagger_ui_dist_path}/favicon-16x16.png`,
+        fileName: path.resolve(swagger_ui_dist_path,'favicon-16x16.png'),
         contentType: 'image/png'
         }
     ],
     [
     'swagger-initializer.js', {
-        fileName: `${package_path}/../swagger-initializer.js`,
+        fileName: path.resolve(package_path,'../swagger-initializer.js'),
         contentType: 'application/javascript; charset=UTF-8'
         }
     ],
     [
     'index.css', {
-        fileName: `${swagger_ui_dist_path}/index.css`,
+        fileName: path.resolve(swagger_ui_dist_path,'index.css'),
         contentType: 'text/css; charset=utf-8'
         }
     ],
     [
     'swagger-ui.css', {
-        fileName: `${swagger_ui_dist_path}/swagger-ui.css`,
+        fileName: path.resolve(swagger_ui_dist_path,'swagger-ui.css'),
         contentType: 'text/css; charset=utf-8'
         }
     ],
     [
     'swagger-ui-bundle.js', {
-        fileName: `${swagger_ui_dist_path}/swagger-ui-bundle.js`,
+        fileName: path.resolve(swagger_ui_dist_path,'swagger-ui-bundle.js'),
         contentType: 'application/javascript; charset=UTF-8'
         }
     ],
     [
     'swagger-ui-standalone-preset.js', {
-        fileName: `${swagger_ui_dist_path}/swagger-ui-standalone-preset.js`,
+        fileName: path.resolve(swagger_ui_dist_path,'swagger-ui-standalone-preset.js'),
         contentType: 'application/javascript; charset=UTF-8'
         }
     ],
     [
     'swagger-ui.css.map', {
-        fileName: `${swagger_ui_dist_path}/swagger-ui.css.map`,
+        fileName: path.resolve(swagger_ui_dist_path,'swagger-ui.css.map'),
         contentType: 'application/json; charset=UTF-8'
         }
     ],
@@ -99,7 +99,7 @@ function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,is_swagger
             if (is_swagger_jsdoc_object[i]){
                 const base = path.basename(swaggerOptions.doc_path[i].url);
                 custom_map.set(path.normalize(base), {
-                    fileName: swaggerOptions.doc_path[i].url,
+                    fileName: path.normalize(swaggerOptions.doc_path[i].url),
                     contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
                 })
                 
@@ -107,7 +107,7 @@ function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,is_swagger
             }
             else{
                 custom_map.set(path.normalize(swaggerOptions.doc_path[i].url), {
-                    fileName: swaggerOptions.doc_path[i].url,
+                    fileName: path.normalize(swaggerOptions.doc_path[i].url),
                     contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
                 })
             }
@@ -116,9 +116,9 @@ function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,is_swagger
     else{
         const extention = path.extname(swaggerOptions.doc_path as string);
         if (is_swagger_jsdoc_object){
-            const base = path.basename(swaggerOptions.doc_path as string);
-            custom_map.set(path.normalize(base), {
-                fileName: swaggerOptions.doc_path as string,
+            const base = path.normalize(path.basename(swaggerOptions.doc_path as string));
+            custom_map.set(base, {
+                fileName: path.normalize(swaggerOptions.doc_path as string),
                 contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
             })
             
@@ -127,26 +127,26 @@ function updateCustomMap(name: string ,swaggerOptions: SwaggerOptions,is_swagger
         }
         else{
             custom_map.set(path.normalize(swaggerOptions.doc_path as string), {
-                fileName: swaggerOptions.doc_path as string,
+                fileName: path.normalize(swaggerOptions.doc_path as string),
                 contentType: extention === '.json' ? 'application/json; charset=UTF-8' : (extention === '.yaml')|| (extention === '.yml') ? 'application/x-yaml; charset=UTF-8' :''
             })
         }
     }
     
     if (swaggerOptions.favicon16) custom_map.set(path.normalize(swaggerOptions.favicon16), {
-        fileName: swaggerOptions.favicon16,
+        fileName: path.normalize(swaggerOptions.favicon16),
         contentType: 'image/png'
     })
     if (swaggerOptions.favicon32) custom_map.set(path.normalize(swaggerOptions.favicon32), {
-        fileName: swaggerOptions.favicon32,
+        fileName: path.normalize(swaggerOptions.favicon32),
         contentType: 'image/png'
     })
     if (swaggerOptions.css_path) custom_map.set(path.normalize(swaggerOptions.css_path), {
-        fileName: swaggerOptions.css_path,
+        fileName: path.normalize(swaggerOptions.css_path),
         contentType: 'text/css; charset=UTF-8'
     })
     if (swaggerOptions.html_path) custom_map.set('html', {
-        fileName: swaggerOptions.html_path,
+        fileName: path.normalize(swaggerOptions.html_path),
         contentType: 'text/html; charset=UTF-8'
     })
 }

@@ -13,7 +13,11 @@ import { deleteTmpDir } from "./src/tmp_path";
  * @param is_swagger_jsdoc_object boolean | Array<boolean>, set to true if the doc_path is a swagger-jsdoc object or boolean array of the same length as doc_path specifying which doc_path is a swagger-jsdoc object
  * 
  * This function creates a new http function with the specified name and options.
+ * 
   * Set options.route to the route where you want to access the Swagger UI without parameters. For example: 'apidocs', and '/{file?}' will be added automatically.
+ * https://github.com/Le-Roi-du-village/azure-functions-swagger-ui#other-example
+
+
  */
 export default function ( name : string = 'swagger_ui' ,swaggerOptions : SwaggerOptions ,httpFunctionOptions?: Partial<HttpFunctionOptions>,is_swagger_jsdoc_object : boolean | Array<boolean>= false): void {
     if (!swaggerOptions.doc_path) throw new Error('doc_path is required in swaggerOptions see https://github.com/Le-Roi-du-village/azure-functions-swagger-ui#other-example');
